@@ -2,6 +2,14 @@
 
 This software repository contains a JavaScript frontend for the typesetting library [“Boxes and Glue”](https://github.com/boxeandglue/boxesandglue) which is an algorithmic typesetting machine in the spirits of TeX.
 
+## Installation
+
+You can get a precompiled binary from [the releases page](https://github.com/boxesandglue/ets/releases) or build the software yourself (see below).
+
+
+## Documentation
+
+The documentation is available at <https://boxesandglue.dev/ets/>.
 
 ## Build
 
@@ -9,7 +17,7 @@ You just need Go installed on your system, clone the repository and run
 
     go build -o bin/ets github.com/boxesandglue/ets/cmd
 
-If you have Rake installed, you can type `rake build`
+If you have [Rake](https://ruby.github.io/rake/) installed, you can type `rake build`
 
 ## Status
 
@@ -19,8 +27,6 @@ Feedback welcome!
 
 
 ## Sample code
-
-Run with `ets myfile.js`
 
 ```js
 bag = require("bag:backend/bag")
@@ -52,6 +58,9 @@ p.outputAt(bag.mustSP("1cm"), bag.mustSP("26cm"), ret[0])
 p.shipout()
 f.doc.finish()
 ```
+
+Now run (on the command line) `ets myfile.js` which creates a PDF (`out.pdf`) and a log file (`myfile-protocol.xml`).
+
 
 ## Examples
 
