@@ -5,6 +5,8 @@ import (
 	"log/slog"
 	"os"
 	"path/filepath"
+	"reflect"
+	"strings"
 	"time"
 
 	pdf "github.com/boxesandglue/baseline-pdf"
@@ -28,6 +30,23 @@ var (
 	filename string
 )
 
+func uncapitalize(s string) string {
+	if after, found := strings.CutPrefix(s, "PDF"); found {
+		return "pdf" + after
+	}
+	return strings.ToLower(s[0:1]) + s[1:]
+}
+
+type uncapFieldNameMapper struct {
+}
+
+func (u uncapFieldNameMapper) FieldName(_ reflect.Type, f reflect.StructField) string {
+	return uncapitalize(f.Name)
+}
+
+func (u uncapFieldNameMapper) MethodName(_ reflect.Type, m reflect.Method) string {
+	return uncapitalize(m.Name)
+}
 func runJavascript(vm *goja.Runtime, scriptname string) error {
 	var err error
 	if _, err = os.Stat(scriptname); err != nil {
@@ -66,8 +85,8 @@ func runDefaultJavascript(vm *goja.Runtime, exename string) error {
 
 func dothings(exename string, args []string) error {
 	runtime := goja.New()
+	runtime.SetFieldNameMapper(uncapFieldNameMapper{})
 	var err error
-	runtime.SetFieldNameMapper(goja.UncapFieldNameMapper())
 	new(require.Registry).Enable(runtime)
 	console.Enable(runtime)
 	runtime.Set("toRunes", func(s string) []rune {

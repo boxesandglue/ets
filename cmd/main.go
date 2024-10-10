@@ -12,6 +12,7 @@ import (
 	"github.com/speedata/optionparser"
 
 	_ "github.com/boxesandglue/ets/backend/bag"
+	_ "github.com/boxesandglue/ets/backend/color"
 	_ "github.com/boxesandglue/ets/backend/document"
 	_ "github.com/boxesandglue/ets/backend/font"
 	_ "github.com/boxesandglue/ets/backend/image"
