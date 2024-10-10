@@ -21,3 +21,9 @@ desc "Compile and install necessary software"
 task :build  do
 	sh "go build -ldflags \"-X main.version=#{@ets_version}\" -o bin/ets github.com/boxesandglue/ets/cmd"
 end
+
+
+desc "Update the version information from the latest git tag"
+task :updateversion do
+	sh "git describe| sed s,v,xts_version=, > version"
+end
