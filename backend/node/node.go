@@ -12,11 +12,30 @@ func init() {
 	require.RegisterNativeModule(modulename, Require)
 }
 
+func newBackendLinebreakSettings(call goja.ConstructorCall, rt *goja.Runtime) *goja.Object {
+	instance := node.NewLinebreakSettings()
+	instanceValue := rt.ToValue(instance).(*goja.Object)
+	instanceValue.SetPrototype(call.This.Prototype())
+
+	if len(call.Arguments) > 0 {
+		firstArg := call.Arguments[0]
+		obj := firstArg.ToObject(rt)
+
+		for _, key := range obj.Keys() {
+			instanceValue.Set(key, obj.Get(key))
+		}
+	}
+	return instanceValue
+}
+
 // Require is called on load.
 func Require(runtime *goja.Runtime, module *goja.Object) {
 
 	func(runtime *goja.Runtime, module *goja.Object) {
 		o := module.Get("exports").(*goja.Object)
+		o.Set("linebreakSettings", newBackendLinebreakSettings)
+		o.Set("linebreak", node.Linebreak)
+		o.Set("appendLineEndAfter", node.AppendLineEndAfter)
 		o.Set("boxit", node.Boxit)
 		o.Set("copyList", node.CopyList)
 		o.Set("dimensions", node.Dimensions)

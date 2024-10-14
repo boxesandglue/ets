@@ -45,8 +45,8 @@ took a golden ball, and threw it up on high and caught it; and this ball was her
 favorite plaything.`.replace(/\s+/g, ' ').trim()
 
 ff = f.newFontFamily("text")
-ff.addMember(fe.fontSource("CrimsonPro-Bold.ttf"), fe.fontWeight700, fe.fontStyleNormal)
-ff.addMember(fe.fontSource("CrimsonPro-Regular.ttf"), fe.fontWeight400, fe.fontStyleNormal)
+ff.addMember( new fe.fontSource( {location: "CrimsonPro-Bold.ttf"}), fe.fontWeight700, fe.fontStyleNormal)
+ff.addMember( new fe.fontSource( {location: "CrimsonPro-Regular.ttf"}), fe.fontWeight400, fe.fontStyleNormal)
 const para = fe.newText()
 
 para.settings[fe.settingSize] = 12 * bag.factor

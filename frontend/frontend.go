@@ -28,6 +28,22 @@ func (jf *jsFrontend) frontendNew(call goja.FunctionCall) goja.Value {
 	return jf.runtime.ToValue(fd)
 }
 
+func newFrontendFontSource(call goja.ConstructorCall, rt *goja.Runtime) *goja.Object {
+	instance := &frontend.FontSource{}
+	instanceValue := rt.ToValue(instance).(*goja.Object)
+	instanceValue.SetPrototype(call.This.Prototype())
+
+	if len(call.Arguments) > 0 {
+		firstArg := call.Arguments[0]
+		obj := firstArg.ToObject(rt)
+
+		for _, key := range obj.Keys() {
+			instanceValue.Set(key, obj.Get(key))
+		}
+	}
+	return instanceValue
+}
+
 // Require is called on load.
 func Require(runtime *goja.Runtime, module *goja.Object) {
 	jf := &jsFrontend{
@@ -37,10 +53,7 @@ func Require(runtime *goja.Runtime, module *goja.Object) {
 	o := module.Get("exports").(*goja.Object)
 	o.Set("new", jf.frontendNew)
 	o.Set("getLanguage", frontend.GetLanguage)
-	o.Set("fontSource", func(call goja.FunctionCall) goja.Value {
-		firstArg := call.Arguments[0]
-		return runtime.ToValue(&frontend.FontSource{Location: firstArg.String()})
-	})
+	o.Set("fontSource", newFrontendFontSource)
 	o.Set("newText", frontend.NewText)
 	o.Set("leading", frontend.Leading)
 	o.Set("fontsize", frontend.FontSize)

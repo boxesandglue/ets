@@ -30,6 +30,8 @@ var (
 	filename string
 )
 
+// Lowercase the first letter or the word pdf. ColorName becomes colorName and
+// PDFWriter becomes pdfWriter.
 func uncapitalize(s string) string {
 	if after, found := strings.CutPrefix(s, "PDF"); found {
 		return "pdf" + after

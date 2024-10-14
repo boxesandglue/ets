@@ -1,19 +1,26 @@
-package font
+package document
 
 import (
-	"github.com/boxesandglue/boxesandglue/backend/font"
+	"os"
+
+	"github.com/boxesandglue/boxesandglue/backend/document"
 	"github.com/dop251/goja"
 	"github.com/dop251/goja_nodejs/require"
 )
 
-const modulename = "bag:backend/font"
+const modulename = "bag:backend/document"
 
 func init() {
 	require.RegisterNativeModule(modulename, Require)
 }
 
-func newBackendFont(call goja.ConstructorCall, rt *goja.Runtime) *goja.Object {
-	instance := &font.Font{}
+func newBackendDocument(call goja.ConstructorCall, rt *goja.Runtime) *goja.Object {
+	firstArg := call.Arguments[0]
+	w, err := os.Create(firstArg.String())
+	if err != nil {
+		panic(rt.ToValue(err))
+	}
+	instance := document.NewDocument(w)
 	instanceValue := rt.ToValue(instance).(*goja.Object)
 	instanceValue.SetPrototype(call.This.Prototype())
 	return instanceValue
@@ -22,6 +29,5 @@ func newBackendFont(call goja.ConstructorCall, rt *goja.Runtime) *goja.Object {
 // Require is called on load.
 func Require(runtime *goja.Runtime, module *goja.Object) {
 	o := module.Get("exports").(*goja.Object)
-	o.Set("font", newBackendFont)
-	o.Set("newFont", font.NewFont)
+	o.Set("document", newBackendDocument)
 }

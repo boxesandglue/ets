@@ -34,6 +34,9 @@ const (
 )
 
 func dothings() error {
+	// show warning on windows when opened from explorer
+	showWindowsWarning()
+
 	pathToExefile, err := os.Executable()
 	if err != nil {
 		return err
