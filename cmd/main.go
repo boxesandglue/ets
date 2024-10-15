@@ -18,6 +18,7 @@ import (
 	_ "github.com/boxesandglue/ets/backend/image"
 	_ "github.com/boxesandglue/ets/backend/lang"
 	_ "github.com/boxesandglue/ets/backend/node"
+	_ "github.com/boxesandglue/ets/etsxpath"
 	_ "github.com/boxesandglue/ets/frontend"
 	_ "github.com/boxesandglue/ets/harfbuzz"
 	_ "github.com/boxesandglue/ets/libbaseline"
